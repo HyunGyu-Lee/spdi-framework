@@ -1,20 +1,26 @@
 package com.leeframework.beans.factory;
 
-import java.util.HashMap;
-
 import com.leeframework.beans.BeanEntry;
 import com.leeframework.beans.BeanFactoryMetaData;
+import com.leeframework.beans.Scope;
+import com.leeframework.beans.SingletonRegistry;
 import com.leeframework.beans.exception.NoSuchBeanException;
 
 public abstract class AbstractBeanFactory {
 	
 	private BeanFactoryMetaData beanFactoryMetaData;
-	private HashMap<String, BeanEntry> beanEntries;
+	private SingletonRegistry singletonRegistry = new SingletonRegistry();
 	
 	public AbstractBeanFactory(BeanFactoryMetaData beanFactoryMetadata) {
 		this.beanFactoryMetaData = beanFactoryMetadata;
-		beanEntries = new HashMap<>();
-		System.out.println("전달받은 메타데이터를 통해 beanEntries 생성");
+		for(String k : beanFactoryMetadata.getBeanEntries().keySet())
+		{
+			if(beanFactoryMetadata.getBeanEntries().get(k).getScope().equals(Scope.SINGLETON))
+			{
+				singletonRegistry.registry(beanFactoryMetadata.getBeanEntries().get(k));
+			}
+		}
+		System.out.println("전달받은 메타데이터를 통해 Scope가 싱글톤(디폴트)인 것들은 싱글톤레지스트리에 적재");
 	}
 	public BeanFactoryMetaData getBeanFactoryMetaData() {
 		return beanFactoryMetaData;
@@ -22,17 +28,23 @@ public abstract class AbstractBeanFactory {
 	public void setBeanFactoryMetaData(BeanFactoryMetaData beanFactoryMetaData) {
 		this.beanFactoryMetaData = beanFactoryMetaData;
 	}
-	public HashMap<String, BeanEntry> getBeanEntries() {
-		return beanEntries;
-	}
-	public void setBeanEntries(HashMap<String, BeanEntry> beanEntries) {
-		this.beanEntries = beanEntries;
-	}
-	public <T> Object getBean(String beanName, Class<T> clazz) {
-		BeanEntry entry = beanEntries.get(beanName);
-		System.out.println("스코프에 따라 빈 반환 방법 결정 후 반환");
+
+	public <T> T getBean(String beanName, Class<T> clazz) {
+		BeanEntry entry = beanFactoryMetaData.getEntry(beanName);
+		
 		if(entry==null)throw new NoSuchBeanException(beanName);
 		
-		return entry.getInstance();
+		if(entry.getScope().equals(Scope.SINGLETON))
+		{
+			return singletonRegistry.getBean(beanName, clazz);
+		}
+		else if(entry.getScope().equals(Scope.PROTOTYPE))
+		{
+			return null;
+		}
+		else
+		{
+			return null;
+		}
 	}
 }

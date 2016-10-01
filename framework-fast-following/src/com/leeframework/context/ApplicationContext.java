@@ -9,13 +9,13 @@ public abstract class ApplicationContext {
 	private AbstractBeanFactory beanFactory;
 	
 	public void initailize() {
+		System.out.println("하위컨텍스트에서 정의한 메타데이터생성전략에 따라 beanFactory 생성");
 		beanFactory = new BeanFactory(createBeanFactoryMetaDataStrategy());
-		System.out.println("전달받은 metaData로 beanFactory 생성");
 	}
 	
 	public abstract BeanFactoryMetaData createBeanFactoryMetaDataStrategy();
 	
-	public <T> Object getBean(String beanName, Class<T> clazz) { 
+	public <T> T getBean(String beanName, Class<T> clazz) { 
 		System.out.println(beanFactory);
 		return beanFactory.getBean(beanName, clazz);
 	}
