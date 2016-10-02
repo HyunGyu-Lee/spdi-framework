@@ -1,6 +1,6 @@
 package com.leeframework.beans.factory;
 
-import com.leeframework.beans.BeanFactoryMetaData;
+import com.leeframework.beans.metadata.BeanFactoryMetaData;
 
 public class BeanFactory extends AbstractBeanFactory {
 	

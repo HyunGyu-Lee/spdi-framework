@@ -1,6 +1,7 @@
 package com.leeframework.context;
 
-import com.leeframework.beans.BeanFactoryMetaData;
+import com.leeframework.beans.metadata.BeanFactoryMetaData;
+import com.leeframework.beans.xml.XmlConfigurationParser;
 
 public class XmlApplicationContext extends ApplicationContext {
 	
@@ -14,11 +15,18 @@ public class XmlApplicationContext extends ApplicationContext {
 	@Override
 	public BeanFactoryMetaData createBeanFactoryMetaDataStrategy() {
 		BeanFactoryMetaData metaData = new BeanFactoryMetaData();
-		System.out.println("XML파일을 파싱 후 metaData 셋팅한 후 반환");
+		
 		for(String xml : xmls)
 		{
-			System.out.println(xml);
-		}
+			try
+			{
+				XmlConfigurationParser.parseAndApply(metaData, "./resource/"+xml);
+			}
+			catch (ClassNotFoundException e)
+			{
+				e.printStackTrace();
+			}
+		}		
 		return metaData;
 	}
 

@@ -1,10 +1,12 @@
 package com.leeframework.beans.factory;
 
-import com.leeframework.beans.BeanEntry;
-import com.leeframework.beans.BeanFactoryMetaData;
-import com.leeframework.beans.Scope;
 import com.leeframework.beans.SingletonRegistry;
 import com.leeframework.beans.exception.NoSuchBeanException;
+import com.leeframework.beans.metadata.BeanEntry;
+import com.leeframework.beans.metadata.BeanFactoryMetaData;
+import com.leeframework.beans.metadata.BeanReference;
+import com.leeframework.beans.metadata.Scope;
+import com.leeframework.utils.ReflectionUtils;
 
 public abstract class AbstractBeanFactory {
 	
@@ -13,14 +15,13 @@ public abstract class AbstractBeanFactory {
 	
 	public AbstractBeanFactory(BeanFactoryMetaData beanFactoryMetadata) {
 		this.beanFactoryMetaData = beanFactoryMetadata;
-		for(String k : beanFactoryMetadata.getBeanEntries().keySet())
+		for(String key : beanFactoryMetadata.getBeanEntries().keySet())
 		{
-			if(beanFactoryMetadata.getBeanEntries().get(k).getScope().equals(Scope.SINGLETON))
+			if(beanFactoryMetadata.getBeanEntries().get(key).getScope().equals(Scope.SINGLETON))
 			{
-				singletonRegistry.registry(beanFactoryMetadata.getBeanEntries().get(k));
+				singletonRegistry.registry(beanFactoryMetadata.getBeanEntries().get(key));
 			}
 		}
-		System.out.println("전달받은 메타데이터를 통해 Scope가 싱글톤(디폴트)인 것들은 싱글톤레지스트리에 적재");
 	}
 	public BeanFactoryMetaData getBeanFactoryMetaData() {
 		return beanFactoryMetaData;
@@ -28,23 +29,37 @@ public abstract class AbstractBeanFactory {
 	public void setBeanFactoryMetaData(BeanFactoryMetaData beanFactoryMetaData) {
 		this.beanFactoryMetaData = beanFactoryMetaData;
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	public <T> T getBean(String beanName, Class<T> clazz) {
 		BeanEntry entry = beanFactoryMetaData.getEntry(beanName);
+		BeanReference reference = beanFactoryMetaData.getReference(beanName);
 		
 		if(entry==null)throw new NoSuchBeanException(beanName);
 		
+		T bean = null;
+		
 		if(entry.getScope().equals(Scope.SINGLETON))
 		{
-			return singletonRegistry.getBean(beanName, clazz);
+			bean = singletonRegistry.getBean(beanName, clazz);
 		}
 		else if(entry.getScope().equals(Scope.PROTOTYPE))
 		{
-			return null;
+			bean = singletonRegistry.getEntryObjectMapper().mapping(entry, clazz);
 		}
-		else
+		
+		if(reference!=null)
 		{
-			return null;
+			BeanEntry refEntry = beanFactoryMetaData.getEntry(reference.getRefName());
+			T refBean = (T)getBean(refEntry.getBeanName(), refEntry.getBeanType());
+			ReflectionUtils.setField(bean, reference.getInjectField(), refBean);
 		}
+		
+		return bean;
 	}
+	
+	public void inject() {
+		
+	}
+	
 }

@@ -2,8 +2,13 @@ package com.leeframework.beans;
 
 import java.util.HashMap;
 
+import com.leeframework.beans.metadata.BeanEntry;
+import com.leeframework.beans.metadata.BeanEntryObjectMapper;
+
 public class SingletonRegistry {
+
 	private HashMap<String, Object> registry;
+	private BeanEntryObjectMapper entryObjectMapper = new BeanEntryObjectMapper();
 	
 	public SingletonRegistry() {
 		registry = new HashMap<>();
@@ -15,8 +20,13 @@ public class SingletonRegistry {
 	}
 	
 	public void registry(BeanEntry beanEntry) {
-		System.out.println("각종 빈 생성작업 후");
-		registry.put(beanEntry.getBeanName(), new BeanEntry(BeanEntry.class, "테스트엔트리", Scope.SINGLETON));
+		registry.put(beanEntry.getBeanName(), entryObjectMapper.mapping(beanEntry));
 	}
-	
+
+	public HashMap<String, Object> getRegistry() {
+		return registry;
+	}
+	public BeanEntryObjectMapper getEntryObjectMapper() {
+		return entryObjectMapper;
+	}
 }
