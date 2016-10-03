@@ -8,8 +8,6 @@ public class TestUnit {
 		
 		ApplicationContext context = new XmlApplicationContext("lee-context.xml");
 		Student student = context.getBean("test", Student.class);
-		
-		System.out.println(student);
 	}
 	
 }

@@ -1,6 +1,7 @@
 package com.leeframework.utils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class ReflectionUtils {
@@ -76,6 +77,68 @@ public class ReflectionUtils {
 			}
 		}
 		return false;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T> T invoke(Method method, Class<T> clazz, Object invokeTarget, Object...params) {
+		try
+		{
+			return (T) method.invoke(invokeTarget, params);
+		}
+		catch (IllegalAccessException e)
+		{
+			e.printStackTrace();
+		}
+		catch (IllegalArgumentException e)
+		{
+			e.printStackTrace();
+		}
+		catch (InvocationTargetException e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static void invoke(Method method, Object invokeTarget, Object...params) {
+		try
+		{
+			method.invoke(invokeTarget, params);
+		}
+		catch (IllegalAccessException e)
+		{
+			e.printStackTrace();
+		}
+		catch (IllegalArgumentException e)
+		{
+			e.printStackTrace();
+		}
+		catch (InvocationTargetException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public static <T> T invoke(Object invokeTarget, Class<T> returnType, String methodName, Object...params) {
+		Class<?>[] paramTypes = getObjectTypes(params);
+		Method m = findMethod(invokeTarget.getClass(), methodName, paramTypes);		
+		return invoke(m, returnType, invokeTarget, params);		
+	}
+	
+	public static void invoke(Object invokeTarget, String methodName, Object...params) {
+		Class<?>[] paramTypes = getObjectTypes(params);
+		Method m = findMethod(invokeTarget.getClass(), methodName, paramTypes);				
+		invoke(m, invokeTarget, params);
+	}
+	
+	public static Class<?>[] getObjectTypes(Object...objs) {
+		Class<?>[] paramTypes = new Class<?>[objs.length];
+		
+		for(int i=0;i<objs.length;i++) {
+			paramTypes[i] = objs[i].getClass();
+		}
+		
+		return paramTypes;
 	}
 	
 }

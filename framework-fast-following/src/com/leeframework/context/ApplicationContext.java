@@ -10,12 +10,16 @@ public abstract class ApplicationContext {
 	
 	public void initailize() {
 		beanFactory = new BeanFactory(createBeanFactoryMetaDataStrategy());
+		beanFactory.setApplicationContext(this);
 	}
 	
 	public abstract BeanFactoryMetaData createBeanFactoryMetaDataStrategy();
 	
 	public <T> T getBean(String beanName, Class<T> clazz) { 
-		return beanFactory.getBean(beanName, clazz, this);
+		return beanFactory.getBean(beanName, clazz);
 	}
 	
+	public AbstractBeanFactory getBeanFactory() {
+		return beanFactory;
+	}
 }
