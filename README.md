@@ -6,5 +6,8 @@
 - 3. SingletonRegistry는 전달받은 빈의 엔트리정보를 이용해 오브젝트를 생성 후 적재
 
 ###TODO 리스트
-- BeanEntry 에 속성정보 추가
-- XML 설정파일 파싱해 BeanFactoryMetaData로 만들어야함
+- BeanEntry 에 속성정보 추가 (추가 - BeanProperty)
+- XML 설정파일 파싱해 BeanFactoryMetaData로 만들어야함 (XmlConfigurationParser)
+- Annotation을 이용해 자바 파일로 BeanFactoryMetaData 만들 수 있어야함
+- Class의 Aware implements 여부를 확인 후 필요한 오브젝트 넣어줘야함
+- LifeCycle 구현
