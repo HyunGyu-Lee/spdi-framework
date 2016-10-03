@@ -15,7 +15,7 @@ public abstract class ApplicationContext {
 	public abstract BeanFactoryMetaData createBeanFactoryMetaDataStrategy();
 	
 	public <T> T getBean(String beanName, Class<T> clazz) { 
-		return beanFactory.getBean(beanName, clazz);
+		return beanFactory.getBean(beanName, clazz, this);
 	}
 	
 }

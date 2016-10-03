@@ -4,8 +4,4 @@
 		<property name="name" value="이현규"/>
 		<property name="age" value="25"/>
 	</bean>
-	<bean name="refBean" class="com.leeframework.beans.RefTest" scope="prototype">
-		<property name="refName" value="테스트"/>
-		<property name="student" ref="test"/>
-	</bean>
 </beans>

@@ -68,4 +68,14 @@ public class ReflectionUtils {
 		return null;
 	}
 	
+	public static boolean isImplements(Class<?> clazz, Class<?> interfaze) {
+		for(Class<?> inter : clazz.getInterfaces()) {
+			if(inter.equals(interfaze))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }
