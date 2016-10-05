@@ -4,30 +4,46 @@ import com.leeframework.beans.SingletonRegistry;
 import com.leeframework.beans.aware.BeanFactoryAware;
 import com.leeframework.beans.aware.BeanNameAware;
 import com.leeframework.beans.exception.NoSuchBeanException;
+import com.leeframework.beans.lifecycle.DisposableBean;
+import com.leeframework.beans.lifecycle.InitailizingBean;
 import com.leeframework.beans.metadata.BeanEntry;
+import com.leeframework.beans.metadata.BeanEntryObjectMapper;
 import com.leeframework.beans.metadata.BeanFactoryMetaData;
 import com.leeframework.beans.metadata.BeanReference;
 import com.leeframework.beans.metadata.Scope;
 import com.leeframework.context.ApplicationContext;
 import com.leeframework.context.ApplicationContextAware;
-import com.leeframework.utils.ReflectionUtils;
+import static com.leeframework.utils.ReflectionUtils.*;
 
-public abstract class AbstractBeanFactory implements ApplicationContextAware {
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+public abstract class AbstractBeanFactory extends BeanEntryObjectMapper implements ApplicationContextAware {
 
 	private ApplicationContext applicationContext;
 	private BeanFactoryMetaData beanFactoryMetaData;
-	private SingletonRegistry singletonRegistry = new SingletonRegistry();
+	private SingletonRegistry singletonRegistry = new SingletonRegistry(this);
 
-	public AbstractBeanFactory(BeanFactoryMetaData beanFactoryMetadata) {
-		this.beanFactoryMetaData = beanFactoryMetadata;
-		for(String key : beanFactoryMetadata.getBeanEntries().keySet())
+	public AbstractBeanFactory() {}
+	
+	public AbstractBeanFactory(BeanFactoryMetaData beanFactoryMetaData) {
+		load(beanFactoryMetaData);
+	}
+	
+	private void load(BeanFactoryMetaData beanFactoryMetaData) {
+		this.beanFactoryMetaData = beanFactoryMetaData;
+	}
+	
+	public void refresh() {
+		for(String beanName : beanFactoryMetaData.getBeanEntries().keySet())
 		{
-			if(beanFactoryMetadata.getBeanEntries().get(key).getScope().equals(Scope.SINGLETON))
+			if(beanFactoryMetaData.getBeanEntries().get(beanName).getScope().equals(Scope.SINGLETON))
 			{
-				singletonRegistry.registry(beanFactoryMetadata.getBeanEntries().get(key));
+				singletonRegistry.registry(beanFactoryMetaData.getBeanEntries().get(beanName));
 			}
 		}
 	}
+	
 	public BeanFactoryMetaData getBeanFactoryMetaData() {
 		return beanFactoryMetaData;
 	}
@@ -35,53 +51,100 @@ public abstract class AbstractBeanFactory implements ApplicationContextAware {
 		this.beanFactoryMetaData = beanFactoryMetaData;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public <T> T getBean(String beanName, Class<T> clazz) {
-		BeanEntry entry = beanFactoryMetaData.getEntry(beanName);
+		BeanEntry beanEntry = beanFactoryMetaData.getEntry(beanName);
 		BeanReference reference = beanFactoryMetaData.getReference(beanName);
 		
-		if(entry==null)throw new NoSuchBeanException(beanName);
+		if(beanEntry==null)throw new NoSuchBeanException(beanName);
 		
-		T bean = null;
-		
-		/* 빈 인스턴스 화 및 DI */
-		if(entry.getScope().equals(Scope.SINGLETON))
-		{
-			bean = singletonRegistry.getBean(beanName, clazz);
-		}
-		else if(entry.getScope().equals(Scope.PROTOTYPE))
-		{
-			bean = singletonRegistry.getEntryObjectMapper().mapping(entry, clazz);
-		}
+		T beanObject = null;
 
+		/* 빈 인스턴스 화 및 DI */
+		beanObject = createNewBean(beanEntry);	// 빈 객체를 생성 또는 싱글톤 레지스트리에서 꺼냅니다.
+		processBeanReference(beanObject, reference);	// Bean간 주입은 여기서 발생합니다.
+		
+		/* Aware 확인 */
+		processAware(beanObject, beanEntry);		// Aware 구현 여부에 따라 필요한 객체를 주입해줍니다.
+
+		/* Lifecycle 콜백 */
+		processBeanInitiating(beanObject, beanEntry);	// BeanEntry에 설정된 대로 빈 초기화 관련 메소드 실행시킵니다.
+		
+		return beanObject;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T> T createNewBean(BeanEntry beanEntry) {
+		if(beanEntry.getScope().equals(Scope.SINGLETON))
+		{
+			return (T)singletonRegistry.getBean(beanEntry.getBeanName(), beanEntry.getBeanType());
+		}
+		else if(beanEntry.getScope().equals(Scope.PROTOTYPE))
+		{
+			return (T) this.mapping(beanEntry, beanEntry.getBeanType());
+		}
+		// default singleton
+		return (T)singletonRegistry.getBean(beanEntry.getBeanName(), beanEntry.getBeanType());
+	}
+	
+	public <T> void processAware(T beanObject, BeanEntry beanEntry) {
+		
+		if(isImplements(beanEntry.getBeanType(), BeanNameAware.class))
+		{
+			invoke(beanObject, "setBeanName", beanEntry.getBeanName());
+		}
+		
+		if(isImplements(beanEntry.getBeanType(), BeanFactoryAware.class))
+		{
+			invoke(findMethod(beanEntry.getBeanType(), "setBeanFactory", AbstractBeanFactory.class), beanObject, this);
+		}
+		
+		if(isImplements(beanEntry.getBeanType(), ApplicationContextAware.class))
+		{
+			invoke(findMethod(beanEntry.getBeanType(), "setApplicationContext", ApplicationContext.class), beanObject, applicationContext);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T> void processBeanReference(T beanObject, BeanReference reference) {
 		if(reference!=null)
 		{
 			BeanEntry refEntry = beanFactoryMetaData.getEntry(reference.getRefName());
 			T refBean = (T)getBean(refEntry.getBeanName(), refEntry.getBeanType());
-			ReflectionUtils.setField(bean, reference.getInjectField(), refBean);
+			setField(beanObject, reference.getInjectField(), refBean);
 		}
+	}
+	
+	public <T> void processBeanInitiating(T beanObject, BeanEntry beanEntry) {
 		
-		/* Aware 확인 */
-		if(ReflectionUtils.isImplements(entry.getBeanType(), BeanNameAware.class))
+		Class<?> beanType = beanEntry.getBeanType();
+
+		/* PostConstruct */
+		invoke(getAnnotatedMethod(beanType, PostConstruct.class), beanObject);
+		
+		/* InitializingBean */
+		if(isImplements(beanType, InitailizingBean.class))
 		{
-			ReflectionUtils.invoke(bean, "setBeanName", entry.getBeanName());
+			invoke(findMethod(beanType, "afterPropertiesSet"), beanObject);
 		}
 		
-		if(ReflectionUtils.isImplements(entry.getBeanType(), BeanFactoryAware.class))
+		/* Initiating-method */
+		if(beanEntry.getInitMethod().length()!=0)
 		{
-			ReflectionUtils.invoke(ReflectionUtils.findMethod(entry.getBeanType(), "setBeanFactory", AbstractBeanFactory.class), bean, this);
+			invoke(findMethod(beanType, beanEntry.getInitMethod()), beanObject);
 		}
+	}
+	
+	public <T> void processBeanDisposing(T beanObject, BeanEntry beanEntry) {
 		
-		if(ReflectionUtils.isImplements(entry.getBeanType(), ApplicationContextAware.class))
+		Class<?> beanType = beanEntry.getBeanType();
+		
+		invoke(getAnnotatedMethod(beanType, PreDestroy.class), beanObject);
+		
+		if(isImplements(beanType, DisposableBean.class))
 		{
-			ReflectionUtils.invoke(ReflectionUtils.findMethod(entry.getBeanType(), "setApplicationContext", ApplicationContext.class), bean, applicationContext);
+			invoke(findMethod(beanType, "destroy"), beanObject);
 		}
-		
-		//entry.getBeanType().inte
-		/* Lifecycle 콜백 */
-		// PostConstruct -> InitializingBean -> xml에 init-method
-		
-		return bean;
+
 	}
 	
 	@Override
@@ -89,4 +152,23 @@ public abstract class AbstractBeanFactory implements ApplicationContextAware {
 		this.applicationContext = applicationContext;
 	}
 
+	public void destroy() {
+		if(singletonRegistry!=null) {
+			for(String beanName : beanFactoryMetaData.getBeanEntries().keySet())
+			{
+				if(beanFactoryMetaData.getBeanEntries().get(beanName).getScope().equals(Scope.SINGLETON))
+				{
+					destroyBean(beanName);
+				}
+			}
+		}
+	}
+	
+	public void destroyBean(String beanName) {
+		BeanEntry entry = beanFactoryMetaData.getEntry(beanName);
+		processBeanDisposing(singletonRegistry.getBean(beanName, entry.getBeanType()), entry);
+		beanFactoryMetaData.getBeanEntries().remove(beanName);
+		singletonRegistry.destroySingleton(beanName);
+	}
+	
 }

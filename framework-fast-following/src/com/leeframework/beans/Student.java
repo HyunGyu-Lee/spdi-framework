@@ -1,17 +1,13 @@
 package com.leeframework.beans;
 
-import java.util.Set;
+import com.leeframework.beans.lifecycle.DisposableBean;
+import com.leeframework.beans.lifecycle.InitailizingBean;
 
-import com.leeframework.beans.aware.BeanFactoryAware;
-import com.leeframework.beans.aware.BeanNameAware;
-import com.leeframework.beans.factory.AbstractBeanFactory;
-import com.leeframework.context.ApplicationContext;
-import com.leeframework.context.ApplicationContextAware;
-
-public class Student implements BeanNameAware, BeanFactoryAware, ApplicationContextAware {
+public class Student implements InitailizingBean, DisposableBean {
 	
 	private String name;
 	private int age;
+	
 	public String getName() {
 		return name;
 	}
@@ -28,26 +24,16 @@ public class Student implements BeanNameAware, BeanFactoryAware, ApplicationCont
 	public String toString() {
 		return "Student [name=" + name + ", age=" + age + "]";
 	}
-	@Override
-	public void setBeanName(String beanName) {
-		System.out.println("BeanNameAware를 통해 bean이 자신의 이름을 알 수 있습니다."+beanName);
-	}
 
 	@Override
-	public void setBeanFactory(AbstractBeanFactory beanFactory) {
-		System.out.println("BeanFactoryAware를 통해 빈에서 빈팩토리에 접근을 가능하게 합니다.");
-		System.out.println("Student빈에서 모든 빈 엔트리 출력");
-		Set<String> k = beanFactory.getBeanFactoryMetaData().getBeanEntries().keySet();
-		
-		for(String kk : k) {
-			System.out.println(beanFactory.getBeanFactoryMetaData().getEntry(kk));
-		}
+	public void afterPropertiesSet() {
+		System.out.println("afterPropertiesSet");
 	}
 	
 	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) {
-		System.out.println("ApplicationContextAware를 통해 빈이 Context에 접근할 수 있습니다.");
-		System.out.println(applicationContext);
+	public void destroy() {
+		System.out.println("파괴자 호출");		
 	}
 	
+
 }

@@ -8,4 +8,5 @@ public class XmlConfigurationNamespace {
 	public static final String REF = "ref";
 	public static final String VALUE = "value";
 	public static final String SCOPE = "scope";
+	public static final String INIT_METHOD = "init-method";
 }

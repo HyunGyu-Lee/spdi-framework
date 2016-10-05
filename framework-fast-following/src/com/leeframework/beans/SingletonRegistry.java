@@ -8,10 +8,11 @@ import com.leeframework.beans.metadata.BeanEntryObjectMapper;
 public class SingletonRegistry {
 
 	private HashMap<String, Object> registry;
-	private BeanEntryObjectMapper entryObjectMapper = new BeanEntryObjectMapper();
+	private BeanEntryObjectMapper entryObjectMapper;
 	
-	public SingletonRegistry() {
+	public SingletonRegistry(BeanEntryObjectMapper entryObjectMapper) {
 		registry = new HashMap<>();
+		this.entryObjectMapper = entryObjectMapper;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -28,5 +29,9 @@ public class SingletonRegistry {
 	}
 	public BeanEntryObjectMapper getEntryObjectMapper() {
 		return entryObjectMapper;
+	}
+
+	public void destroySingleton(String beanName) {
+		registry.remove(beanName);
 	}
 }

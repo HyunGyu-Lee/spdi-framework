@@ -58,6 +58,8 @@ public class XmlConfigurationParser {
 			String beanName = beanNode.getAttribute(XmlConfigurationNamespace.NAME);
 			Class<?> beanClass = Class.forName(beanNode.getAttribute(XmlConfigurationNamespace.CLASS));
 			String scope = beanNode.getAttribute(XmlConfigurationNamespace.SCOPE).toUpperCase();
+			String initMethod = beanNode.getAttribute(XmlConfigurationNamespace.INIT_METHOD);
+			
 			BeanEntry entry = new BeanEntry();
 
 			if(scope.length()==0)
@@ -80,6 +82,7 @@ public class XmlConfigurationParser {
 				entry.setBeanName(beanName);
 				entry.setBeanType(beanClass);
 				entry.addProperty(new BeanProperty(propertyName, propertyValue, refName));
+				entry.setInitMethod(initMethod);
 				if(refName.length()!=0)
 				{
 					dataTarget.addReference(beanName, new BeanReference(refName, propertyName));

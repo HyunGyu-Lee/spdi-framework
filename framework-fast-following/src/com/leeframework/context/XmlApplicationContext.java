@@ -7,7 +7,14 @@ public class XmlApplicationContext extends ApplicationContext {
 	
 	private String[] xmls;
 	
+	public XmlApplicationContext(){}
+	
 	public XmlApplicationContext(String...xmls) {
+		this.load(xmls);
+		super.refresh();
+	}
+	
+	public void load(String...xmls) {
 		this.xmls = xmls;
 		super.initailize();
 	}
@@ -30,6 +37,5 @@ public class XmlApplicationContext extends ApplicationContext {
 		return metaData;
 	}
 
-	
-	
+
 }

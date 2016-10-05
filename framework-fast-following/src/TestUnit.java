@@ -1,13 +1,24 @@
+
+import org.junit.Before;
+import org.junit.Test;
+
 import com.leeframework.beans.Student;
-import com.leeframework.context.ApplicationContext;
 import com.leeframework.context.XmlApplicationContext;
 
 public class TestUnit {
 	
-	public static void main(String[] args) throws NoSuchMethodException, SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		
-		ApplicationContext context = new XmlApplicationContext("lee-context.xml");
+	private XmlApplicationContext context;
+	
+	@Before
+	public void setUp() {
+		context = new XmlApplicationContext("lee-context.xml");
+	}
+	
+	@Test
+	public void main() {
 		Student student = context.getBean("test", Student.class);
+		System.out.println(student.toString());
+		context.close();
 	}
 	
 }

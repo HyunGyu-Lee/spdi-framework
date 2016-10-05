@@ -1,5 +1,6 @@
 package com.leeframework.utils;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -103,7 +104,14 @@ public class ReflectionUtils {
 	public static void invoke(Method method, Object invokeTarget, Object...params) {
 		try
 		{
-			method.invoke(invokeTarget, params);
+			if(method!=null)
+			{
+				method.invoke(invokeTarget, params);
+			}
+			else
+			{
+				// ¿¡·¯
+			}
 		}
 		catch (IllegalAccessException e)
 		{
@@ -139,6 +147,37 @@ public class ReflectionUtils {
 		}
 		
 		return paramTypes;
+	}
+	
+	public static boolean hasMethod(Class<?> clazz, String methodName) {
+		if(findMethod(clazz, methodName, Void.class)!=null)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public static boolean isAnnotatedOnClass(Class<?> clazz, Class<? extends Annotation> annotation)
+	{
+		if(clazz.getDeclaredAnnotation(annotation)!=null)
+		{
+			return true;
+		}
+		
+		return false;			
+	}
+	
+	public static Method getAnnotatedMethod(Class<?> clazz, Class<? extends Annotation> annotation)
+	{
+		for(Method m : clazz.getDeclaredMethods())
+		{
+			if(m.getAnnotation(annotation)!=null)
+			{
+				return m;
+			}
+		}
+		return null;
 	}
 	
 }
