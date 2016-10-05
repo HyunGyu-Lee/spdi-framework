@@ -59,6 +59,7 @@ public class XmlConfigurationParser {
 			Class<?> beanClass = Class.forName(beanNode.getAttribute(XmlConfigurationNamespace.CLASS));
 			String scope = beanNode.getAttribute(XmlConfigurationNamespace.SCOPE).toUpperCase();
 			String initMethod = beanNode.getAttribute(XmlConfigurationNamespace.INIT_METHOD);
+			String destroyMethod = beanNode.getAttribute(XmlConfigurationNamespace.DESTROY_METHOD);
 			
 			BeanEntry entry = new BeanEntry();
 
@@ -82,7 +83,8 @@ public class XmlConfigurationParser {
 				entry.setBeanName(beanName);
 				entry.setBeanType(beanClass);
 				entry.addProperty(new BeanProperty(propertyName, propertyValue, refName));
-				entry.setInitMethod(initMethod);
+				entry.setInitMethod(initMethod.length()==0?null:initMethod);
+				entry.setDestroyMethod(destroyMethod.length()==0?null:destroyMethod);
 				if(refName.length()!=0)
 				{
 					dataTarget.addReference(beanName, new BeanReference(refName, propertyName));

@@ -128,7 +128,7 @@ public abstract class AbstractBeanFactory extends BeanEntryObjectMapper implemen
 		}
 		
 		/* Initiating-method */
-		if(beanEntry.getInitMethod().length()!=0)
+		if(beanEntry.getInitMethod()!=null)
 		{
 			invoke(findMethod(beanType, beanEntry.getInitMethod()), beanObject);
 		}
@@ -138,13 +138,16 @@ public abstract class AbstractBeanFactory extends BeanEntryObjectMapper implemen
 		
 		Class<?> beanType = beanEntry.getBeanType();
 		
-		invoke(getAnnotatedMethod(beanType, PreDestroy.class), beanObject);
+		if(beanEntry.getDestroyMethod()!=null) {
+			invoke(findMethod(beanType, beanEntry.getDestroyMethod()), beanObject);
+		}
 		
 		if(isImplements(beanType, DisposableBean.class))
 		{
 			invoke(findMethod(beanType, "destroy"), beanObject);
 		}
-
+		
+		invoke(getAnnotatedMethod(beanType, PreDestroy.class), beanObject);
 	}
 	
 	@Override

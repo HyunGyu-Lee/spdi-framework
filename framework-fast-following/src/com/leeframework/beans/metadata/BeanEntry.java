@@ -7,15 +7,17 @@ public class BeanEntry {
 	private String beanName;
 	private Scope scope;
 	private String initMethod;
+	private String destroyMethod;
 	private HashMap<String,BeanProperty> properties = new HashMap<String,BeanProperty>();
 	
 	public BeanEntry() {}
 	
-	public BeanEntry(Class<?> beanType, String beanName, Scope scope, String initMethod) {
+	public BeanEntry(Class<?> beanType, String beanName, Scope scope, String initMethod, String destroyMethod) {
 		this.beanType = beanType;
 		this.beanName = beanName;
 		this.scope = scope;
 		this.initMethod = initMethod;
+		this.destroyMethod = destroyMethod;
 	}
 
 	public Class<?> getBeanType() {
@@ -54,11 +56,17 @@ public class BeanEntry {
 	public void setInitMethod(String initMethod) {
 		this.initMethod = initMethod;
 	}
+	public String getDestroyMethod() {
+		return destroyMethod;
+	}
+	public void setDestroyMethod(String destroyMethod) {
+		this.destroyMethod = destroyMethod;
+	}
 
 	@Override
 	public String toString() {
 		return "BeanEntry [beanType=" + beanType + ", beanName=" + beanName + ", scope=" + scope + ", initMethod="
-				+ initMethod + ", properties=" + properties + "]";
+				+ initMethod + ", destroyMethod=" + destroyMethod + ", properties=" + properties + "]";
 	}
 	
 }

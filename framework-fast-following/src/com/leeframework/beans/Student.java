@@ -20,10 +20,6 @@ public class Student implements InitailizingBean, DisposableBean {
 	public void setAge(int age) {
 		this.age = age;
 	}
-	@Override
-	public String toString() {
-		return "Student [name=" + name + ", age=" + age + "]";
-	}
 
 	@Override
 	public void afterPropertiesSet() {
@@ -33,6 +29,10 @@ public class Student implements InitailizingBean, DisposableBean {
 	@Override
 	public void destroy() {
 		System.out.println("ÆÄ±«ÀÚ È£Ãâ");		
+	}
+	
+	public void zz() {
+		System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
 	}
 	
 
