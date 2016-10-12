@@ -2,6 +2,7 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import com.leeframework.beans.RefTest;
 import com.leeframework.beans.Student;
 import com.leeframework.context.XmlApplicationContext;
 
@@ -17,7 +18,8 @@ public class TestUnit {
 	@Test
 	public void main() {
 		Student student = context.getBean("test", Student.class);
-		System.out.println(student.toString());
+		RefTest t = context.getBean("rf", RefTest.class);
+		System.out.println(student.toString()+","+t);
 		context.close();
 	}
 	

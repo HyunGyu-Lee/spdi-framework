@@ -1,9 +1,6 @@
 package com.leeframework.beans;
 
-import com.leeframework.beans.lifecycle.DisposableBean;
-import com.leeframework.beans.lifecycle.InitailizingBean;
-
-public class Student implements InitailizingBean, DisposableBean {
+public class Student {
 	
 	private String name;
 	private int age;
@@ -20,20 +17,5 @@ public class Student implements InitailizingBean, DisposableBean {
 	public void setAge(int age) {
 		this.age = age;
 	}
-
-	@Override
-	public void afterPropertiesSet() {
-		System.out.println("afterPropertiesSet");
-	}
-	
-	@Override
-	public void destroy() {
-		System.out.println("ÆÄ±«ÀÚ È£Ãâ");		
-	}
-	
-	public void zz() {
-		System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
-	}
-	
 
 }

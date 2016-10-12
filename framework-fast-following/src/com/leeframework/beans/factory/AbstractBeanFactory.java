@@ -170,7 +170,7 @@ public abstract class AbstractBeanFactory extends BeanEntryObjectMapper implemen
 	public void destroyBean(String beanName) {
 		BeanEntry entry = beanFactoryMetaData.getEntry(beanName);
 		processBeanDisposing(singletonRegistry.getBean(beanName, entry.getBeanType()), entry);
-		beanFactoryMetaData.getBeanEntries().remove(beanName);
+		//beanFactoryMetaData.getBeanEntries().remove(beanName);
 		singletonRegistry.destroySingleton(beanName);
 	}
 	
