@@ -8,6 +8,7 @@
 	<bean name="rf" class="com.leeframework.beans.RefTest">
 		<property name="refName" value="zz"/>
 		<property name="student" ref="test"/>
-	</bean>
+	</bean>	
 	
+	<component-scan base-package = "com.leeframework"/>
 </beans>

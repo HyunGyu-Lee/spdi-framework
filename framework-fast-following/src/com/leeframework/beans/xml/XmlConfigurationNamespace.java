@@ -10,4 +10,6 @@ public class XmlConfigurationNamespace {
 	public static final String SCOPE = "scope";
 	public static final String INIT_METHOD = "init-method";
 	public static final String DESTROY_METHOD = "destroy-method";
+	public static final String COMPONENT_SCAN = "component-scan";
+	public static final String BASE_PACKAGE = "base-package";
 }

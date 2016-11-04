@@ -1,9 +1,12 @@
 package com.leeframework.utils;
 
+import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URL;
+import java.util.ArrayList;
 
 public class ReflectionUtils {
 	
@@ -180,4 +183,51 @@ public class ReflectionUtils {
 		return null;
 	}
 	
+	public static ArrayList<Class<?>> scanPackage(String packagePath) {
+		// 사용할 리스트 초기화
+		ArrayList<String> classNames = new ArrayList<>();
+		ArrayList<Class<?>> classes = new ArrayList<>();
+
+		// 전달받은 경로 기준 URL 생성
+		URL url = ReflectionUtils.class.getResource("/"+packagePath.replace(".", "/"));
+
+		// URL이 null이면 null반환 후 종료
+		if(url==null)return null;
+		File root = new File(url.getFile());
+		
+		// root디렉토리 기준으로 탐색 시작
+		searchDirectory(root, packagePath, classNames);
+
+		for(String className : classNames) {
+			try
+			{
+				classes.add(Class.forName(className));
+				System.out.println(className);
+			}
+			catch (ClassNotFoundException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		return classes;
+	}
+	
+	public static void searchDirectory(File root, String packagePath, ArrayList<String> classes) {
+		if(root.isDirectory())
+		{
+			for(File child : root.listFiles())
+			{
+				if(child.isDirectory())
+				{
+					searchDirectory(child, packagePath+"."+child.getName(), classes);
+				}
+				else
+				{
+
+					classes.add(packagePath+"."+child.getName().split("\\.")[0]);
+				}
+			}
+		}
+	}
 }

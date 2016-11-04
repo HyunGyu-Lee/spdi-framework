@@ -12,6 +12,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.leeframework.beans.aware.BeanNameAware;
 import com.leeframework.beans.metadata.BeanEntry;
 import com.leeframework.beans.metadata.BeanFactoryMetaData;
 import com.leeframework.beans.metadata.BeanProperty;
@@ -54,7 +55,6 @@ public class XmlConfigurationParser {
 		for(int idx=0; idx<beanNodes.getLength(); idx++)
 		{
 			Element beanNode = (Element)beanNodes.item(idx);
-			
 			String beanName = beanNode.getAttribute(XmlConfigurationNamespace.NAME);
 			Class<?> beanClass = Class.forName(beanNode.getAttribute(XmlConfigurationNamespace.CLASS));
 			String scope = beanNode.getAttribute(XmlConfigurationNamespace.SCOPE).toUpperCase();
