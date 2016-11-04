@@ -22,7 +22,7 @@ public class TestUnit {
 		context = new XmlApplicationContext("lee-context.xml");
 	}
 	
-	//@Test
+//	@Test
 	public void main() {
 		Student student = context.getBean("test", Student.class);
 		RefTest t = context.getBean("rf", RefTest.class);

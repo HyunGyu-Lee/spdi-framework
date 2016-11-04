@@ -5,29 +5,33 @@ import com.leeframework.beans.xml.XmlConfigurationParser;
 
 public class XmlApplicationContext extends ApplicationContext {
 	
-	private String[] xmls;
+	private String[] configurables;
 	
 	public XmlApplicationContext(){}
 	
-	public XmlApplicationContext(String...xmls) {
-		this.load(xmls);
+	public XmlApplicationContext(String...configurables) {
+		this.configurables = configurables;
+		super.load();
 		super.refresh();
 	}
 	
-	public void load(String...xmls) {
-		this.xmls = xmls;
-		super.initailize();
+	public String[] getConfigurables() {
+		return configurables;
 	}
-	
+
+	public void setConfigurables(String...configurables) {
+		this.configurables = configurables;
+	}
+
 	@Override
 	public BeanFactoryMetaData createBeanFactoryMetaDataStrategy() {
 		BeanFactoryMetaData metaData = new BeanFactoryMetaData();
 		
-		for(String xml : xmls)
+		for(String configurable : configurables)
 		{
 			try
 			{
-				XmlConfigurationParser.parseAndApply(metaData, "./resource/"+xml);
+				XmlConfigurationParser.parseAndApply(metaData, "./resource/"+configurable);
 			}
 			catch (ClassNotFoundException e)
 			{
@@ -36,6 +40,5 @@ public class XmlApplicationContext extends ApplicationContext {
 		}		
 		return metaData;
 	}
-
-
+	
 }
