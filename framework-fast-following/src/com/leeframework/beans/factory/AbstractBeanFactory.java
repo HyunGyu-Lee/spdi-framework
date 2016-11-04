@@ -1,6 +1,5 @@
 package com.leeframework.beans.factory;
 
-import com.leeframework.beans.SingletonRegistry;
 import com.leeframework.beans.aware.BeanFactoryAware;
 import com.leeframework.beans.aware.BeanNameAware;
 import com.leeframework.beans.exception.NoSuchBeanException;

@@ -8,18 +8,21 @@ import java.net.MalformedURLException;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.leeframework.beans.MyBeanConfig;
 import com.leeframework.beans.RefTest;
 import com.leeframework.beans.Student;
+import com.leeframework.context.AnnotationConfigApplicationContext;
 import com.leeframework.context.XmlApplicationContext;
-import com.leeframework.utils.ReflectionUtils;
 
 public class TestUnit {
 	
 	private XmlApplicationContext context;
+	private AnnotationConfigApplicationContext ctx;
 	
 	@Before
 	public void setUp() {
 		context = new XmlApplicationContext("lee-context.xml");
+		ctx = new AnnotationConfigApplicationContext(MyBeanConfig.class);
 	}
 	
 //	@Test
@@ -32,7 +35,7 @@ public class TestUnit {
 	
 	@Test
 	public void reflectionUtilsTest() throws MalformedURLException {
-		assertThat(ReflectionUtils.scanPackage("com.leeframework.beans.xml"), not(nullValue()));
+		
 	}
 	
 }

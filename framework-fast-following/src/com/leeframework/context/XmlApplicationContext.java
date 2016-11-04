@@ -11,8 +11,8 @@ public class XmlApplicationContext extends ApplicationContext {
 	
 	public XmlApplicationContext(String...configurables) {
 		this.configurables = configurables;
-		super.load();
-		super.refresh();
+		load();
+		refresh();
 	}
 	
 	public String[] getConfigurables() {

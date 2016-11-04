@@ -1,4 +1,4 @@
-package com.leeframework.beans;
+package com.leeframework.beans.factory;
 
 import java.util.HashMap;
 

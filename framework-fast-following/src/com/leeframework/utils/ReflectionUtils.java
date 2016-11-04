@@ -183,6 +183,21 @@ public class ReflectionUtils {
 		return null;
 	}
 	
+	public static Method[] getAnnotatedMethods(Class<?> clazz, Class<? extends Annotation> annotation) {
+		ArrayList<Method> methodArray = new ArrayList<>();
+		
+		for(Method m : clazz.getDeclaredMethods())
+		{
+			if(m.getAnnotation(annotation)!=null)
+			{
+				System.out.println(m.toGenericString());
+				methodArray.add(m);
+			}
+		}
+		
+		return methodArray.toArray(new Method[methodArray.size()]);
+	}
+	
 	public static ArrayList<Class<?>> scanPackage(String packagePath) {
 		// 사용할 리스트 초기화
 		ArrayList<String> classNames = new ArrayList<>();
