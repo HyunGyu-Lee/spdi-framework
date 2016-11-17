@@ -1,7 +1,7 @@
 package com.leeframework.context;
 
 import com.leeframework.beans.metadata.BeanFactoryMetaData;
-import com.leeframework.beans.xml.XmlConfigurationParser;
+import com.leeframework.beans.parser.xml.XmlConfigurationParser;
 
 public class XmlApplicationContext extends ApplicationContext {
 	
@@ -24,7 +24,7 @@ public class XmlApplicationContext extends ApplicationContext {
 	}
 
 	@Override
-	public BeanFactoryMetaData createBeanFactoryMetaDataStrategy() {
+	protected BeanFactoryMetaData createBeanFactoryMetaDataStrategy() {
 		BeanFactoryMetaData metaData = new BeanFactoryMetaData();
 		
 		for(String configurable : configurables)

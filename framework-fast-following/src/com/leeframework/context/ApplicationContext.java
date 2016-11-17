@@ -12,7 +12,7 @@ public abstract class ApplicationContext extends LifeCycle {
 	
 	public ApplicationContext(){}
 	
-	public abstract BeanFactoryMetaData createBeanFactoryMetaDataStrategy();
+	protected abstract BeanFactoryMetaData createBeanFactoryMetaDataStrategy();
 	
 	public <T> T getBean(String beanName, Class<T> clazz) { 
 		if(isLoaded())

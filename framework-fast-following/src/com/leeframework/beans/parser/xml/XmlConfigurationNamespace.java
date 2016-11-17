@@ -1,4 +1,4 @@
-package com.leeframework.beans.xml;
+package com.leeframework.beans.parser.xml;
 
 public class XmlConfigurationNamespace {
 	public static final String BEAN = "bean";

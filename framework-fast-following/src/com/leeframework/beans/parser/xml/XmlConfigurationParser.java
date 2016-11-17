@@ -1,4 +1,4 @@
-package com.leeframework.beans.xml;
+package com.leeframework.beans.parser.xml;
 
 import java.io.File;
 import java.io.IOException;

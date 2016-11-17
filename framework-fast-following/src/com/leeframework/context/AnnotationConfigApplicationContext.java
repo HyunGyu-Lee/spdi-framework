@@ -2,6 +2,7 @@ package com.leeframework.context;
 
 import com.leeframework.beans.annotation.Bean;
 import com.leeframework.beans.annotation.Configuration;
+import com.leeframework.beans.exception.NotConfigurableClassException;
 import com.leeframework.beans.metadata.BeanFactoryMetaData;
 import com.leeframework.utils.ReflectionUtils;
 
@@ -26,7 +27,7 @@ public class AnnotationConfigApplicationContext extends ApplicationContext {
 	}
 
 	@Override
-	public BeanFactoryMetaData createBeanFactoryMetaDataStrategy() {
+	protected BeanFactoryMetaData createBeanFactoryMetaDataStrategy() {
 		BeanFactoryMetaData metaData = new BeanFactoryMetaData();
 		
 		for(Class<?> configurable : configurables)
@@ -37,11 +38,13 @@ public class AnnotationConfigApplicationContext extends ApplicationContext {
 			}
 			else
 			{
-				System.out.println("Configuration 어노테이션 미적용 클래스 - "+configurable.getName());
+				throw new NotConfigurableClassException("This class isn't configurable class", configurable);
 			}
 		}
 		
 		return metaData;
 	}
+
+	
 
 }

@@ -27,10 +27,7 @@ public class TestUnit {
 	
 //	@Test
 	public void main() {
-		Student student = context.getBean("test", Student.class);
-		RefTest t = context.getBean("rf", RefTest.class);
-		System.out.println(student.toString()+","+t);
-		context.close();
+		
 	}
 	
 	@Test
