@@ -190,7 +190,6 @@ public class ReflectionUtils {
 		{
 			if(m.getAnnotation(annotation)!=null)
 			{
-				System.out.println(m.toGenericString());
 				methodArray.add(m);
 			}
 		}

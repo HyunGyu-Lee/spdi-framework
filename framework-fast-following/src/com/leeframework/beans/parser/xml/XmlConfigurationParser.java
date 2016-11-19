@@ -12,7 +12,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.leeframework.beans.aware.BeanNameAware;
 import com.leeframework.beans.metadata.BeanEntry;
 import com.leeframework.beans.metadata.BeanFactoryMetaData;
 import com.leeframework.beans.metadata.BeanProperty;

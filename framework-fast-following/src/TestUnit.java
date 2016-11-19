@@ -21,7 +21,7 @@ public class TestUnit {
 	
 	@Before
 	public void setUp() {
-		context = new XmlApplicationContext("lee-context.xml");
+		//context = new XmlApplicationContext("lee-context.xml");
 		ctx = new AnnotationConfigApplicationContext(MyBeanConfig.class);
 	}
 	
