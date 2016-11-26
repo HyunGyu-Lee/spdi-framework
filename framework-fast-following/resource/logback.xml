@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 30초마다 설정 파일의 변경을 확인한다. 파일이 변경되면 다시 로딩한다 -->
+<configuration scan="true" scanPeriod="30 seconds">
+ 
+    <!-- 외부 설정파일을 사용할 수 있다.  <property resource="resource.properties"/> -->
+    
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern> %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%logger] - %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <logger name="com.leeframework" level="info">
+    	<appender-ref ref="console"/>
+    </logger>
+    
+    <logger name="com.leeframework" level="debug">
+    	<appender-ref ref="console"/>
+    </logger>
+	
+    
+</configuration>

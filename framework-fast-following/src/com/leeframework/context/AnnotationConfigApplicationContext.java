@@ -1,5 +1,8 @@
 package com.leeframework.context;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.leeframework.beans.exception.NotConfigurableClassException;
 import com.leeframework.beans.metadata.BeanFactoryMetaData;
 import com.leeframework.beans.parser.classconfig.ClassConfigurationParser;
@@ -7,6 +10,8 @@ import com.leeframework.beans.streotype.Configuration;
 import com.leeframework.utils.ReflectionUtils;
 
 public class AnnotationConfigApplicationContext extends ApplicationContext {
+	
+	private static final Logger logger = LoggerFactory.getLogger(AnnotationConfigApplicationContext.class);
 	
 	private Class<?>[] configurables;
 	
@@ -32,6 +37,7 @@ public class AnnotationConfigApplicationContext extends ApplicationContext {
 
 		for(Class<?> configurable : configurables)
 		{
+			logger.info("Parse {}", configurable.getName());
 			if(ReflectionUtils.isAnnotatedOnClass(configurable, Configuration.class))
 			{
 				ClassConfigurationParser.parseAndApply(metaData, configurable);

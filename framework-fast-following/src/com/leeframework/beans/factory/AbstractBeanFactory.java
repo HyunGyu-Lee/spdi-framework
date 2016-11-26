@@ -14,11 +14,18 @@ import com.leeframework.context.ApplicationContext;
 import com.leeframework.context.ApplicationContextAware;
 import static com.leeframework.utils.ReflectionUtils.*;
 
+import java.lang.reflect.Method;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class AbstractBeanFactory extends BeanEntryObjectMapper implements ApplicationContextAware {
 
+	private static final Logger logger = LoggerFactory.getLogger(AbstractBeanFactory.class);
+	
 	private ApplicationContext applicationContext;
 	private BeanFactoryMetaData beanFactoryMetaData;
 	private SingletonRegistry singletonRegistry = new SingletonRegistry(this);
@@ -30,14 +37,19 @@ public abstract class AbstractBeanFactory extends BeanEntryObjectMapper implemen
 	}
 	
 	private void load(BeanFactoryMetaData beanFactoryMetaData) {
+		logger.info("Load metadata {}",beanFactoryMetaData);
 		this.beanFactoryMetaData = beanFactoryMetaData;
 	}
 	
 	public void refresh() {
 		for(String beanName : beanFactoryMetaData.getBeanEntries().keySet())
 		{
-			if(beanFactoryMetaData.getBeanEntries().get(beanName).getScope().equals(Scope.SINGLETON))
+			BeanEntry entry = beanFactoryMetaData.getBeanEntries().get(beanName);
+			if(entry.getScope()==null) beanFactoryMetaData.getBeanEntries().get(beanName).setScope(Scope.SINGLETON);
+			
+			if(entry.getScope().equals(Scope.SINGLETON))
 			{
+				logger.info("{}({}) registed at Singleton registry", beanName, entry.getBeanType().getSimpleName());
 				singletonRegistry.registry(beanFactoryMetaData.getBeanEntries().get(beanName));
 			}
 		}

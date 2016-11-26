@@ -1,5 +1,8 @@
 package com.leeframework.context;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.leeframework.beans.factory.AbstractBeanFactory;
 import com.leeframework.beans.factory.BeanFactory;
 import com.leeframework.beans.metadata.BeanFactoryMetaData;
@@ -10,7 +13,11 @@ public abstract class ApplicationContext extends LifeCycle {
 	
 	private AbstractBeanFactory beanFactory;
 	
-	public ApplicationContext(){}
+	static final Logger logger = LoggerFactory.getLogger(ApplicationContext.class);
+	
+	public ApplicationContext() {
+		logger.info("Root Context Start");
+	}
 	
 	protected abstract BeanFactoryMetaData createBeanFactoryMetaDataStrategy();
 	

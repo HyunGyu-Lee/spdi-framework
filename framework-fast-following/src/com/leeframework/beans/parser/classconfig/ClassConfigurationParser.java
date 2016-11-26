@@ -11,8 +11,13 @@ import static com.leeframework.utils.ReflectionUtils.*;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ClassConfigurationParser {
 
+	private static final Logger logger = LoggerFactory.getLogger(ClassConfigurationParser.class);
+	
 	public static void parseAndApply(BeanFactoryMetaData metaData, Class<?> configurable) {
 		Method[] beans = getAnnotatedMethods(configurable, Bean.class);
 		
@@ -33,8 +38,11 @@ public class ClassConfigurationParser {
 			
 			/* 의존관계 추가 처리 */
 			proceedingReference(metaData, entry, bean);
-			
-			System.out.println(entry+"\n\n");			
+			/*
+			 * 여기서 실행할 메소드를 빈 엔트리에 넣어두던지 해야함, Autowired정보가 계속 유지될지가 해봐야함
+			 * */
+			entry.setInvocable(bean);
+			metaData.addEntry(entry.getBeanName(), entry);
 		}
 		
 	}

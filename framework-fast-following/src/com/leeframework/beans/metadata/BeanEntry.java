@@ -1,5 +1,6 @@
 package com.leeframework.beans.metadata;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 
 public class BeanEntry {
@@ -9,7 +10,8 @@ public class BeanEntry {
 	private String initMethod;
 	private String destroyMethod;
 	private HashMap<String,BeanProperty> properties = new HashMap<String,BeanProperty>();
-	
+	private Method invocable;
+
 	public BeanEntry() {}
 	
 	public BeanEntry(Class<?> beanType, String beanName, Scope scope, String initMethod, String destroyMethod) {
@@ -61,6 +63,12 @@ public class BeanEntry {
 	}
 	public void setDestroyMethod(String destroyMethod) {
 		this.destroyMethod = destroyMethod;
+	}
+	public Method getInvocable() {
+		return invocable;
+	}
+	public void setInvocable(Method invocable) {
+		this.invocable = invocable;
 	}
 
 	@Override
