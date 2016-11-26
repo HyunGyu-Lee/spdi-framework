@@ -10,5 +10,8 @@
 - <i>XML 설정파일 파싱해 BeanFactoryMetaData로 만들어야함 (XmlConfigurationParser)-----------------완료</i>
 - <i>Class의 Aware implements 여부를 확인 후 필요한 오브젝트 넣어줘야함-----------------완료</i>
 - <i>Annotation을 이용해 자바 파일로 BeanFactoryMetaData 만들 수 있어야함 ----------------------- 완</i>
+- <i>Annotation 설정 후 Bean을 얻기 위해 invoke할 메소드를 저장할 필요가 있음 -> BeanEntry에 invocable 필드 추가, 2016-11-27</i>
 - <b>LifeCycle 구현 , Bean LifeCycle은 구현, Context LifeCycle은 미약함 </b>
-- <b>Annotation 설정 후 Bean을 얻기 위해 invoke할 메소드를 저장할 필요가 있음</b>
+- <b>Autowired</b>
+
+
