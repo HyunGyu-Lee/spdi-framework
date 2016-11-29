@@ -1,3 +1,4 @@
+package com.leeframework;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -10,6 +11,8 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.leeframework.beans.MyBeanConfig;
 import com.leeframework.beans.RefTest;
@@ -23,6 +26,8 @@ public class TestUnit {
 	private XmlApplicationContext context;
 	private AnnotationConfigApplicationContext ctx;
 	
+	Logger log = LoggerFactory.getLogger(TestUnit.class);
+	
 	@Before
 	public void setUp() {
 		//context = new XmlApplicationContext("lee-context.xml");
@@ -31,7 +36,13 @@ public class TestUnit {
 	
 	@Test
 	public void main() {
-		System.out.println(ctx.getBean("test", Student.class));
+		//System.out.println(ctx.getBean("test", Student.class));
+//		log.trace("TRACE 레벨");
+//		log.debug("DEBUG 레벨");
+//		log.info("INFO 레벨");
+//		log.warn("WARN 레벨");
+//		log.error("ERROR 레벨");
+		
 		
 		
 	}

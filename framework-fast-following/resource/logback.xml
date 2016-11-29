@@ -10,13 +10,11 @@
         </encoder>
     </appender>
     
-    <logger name="com.leeframework" level="info">
+    <logger name="com.leeframework" level="trace">
     	<appender-ref ref="console"/>
     </logger>
+
     
-    <logger name="com.leeframework" level="debug">
-    	<appender-ref ref="console"/>
-    </logger>
-	
+		
     
 </configuration>

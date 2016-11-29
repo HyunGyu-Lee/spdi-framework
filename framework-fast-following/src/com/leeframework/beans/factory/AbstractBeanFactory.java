@@ -71,7 +71,8 @@ public abstract class AbstractBeanFactory extends BeanEntryObjectMapper implemen
 		T beanObject = null;
 
 		/* 빈 인스턴스 화 및 DI */
-		beanObject = createNewBean(beanEntry);	// 빈 객체를 생성 또는 싱글톤 레지스트리에서 꺼냅니다.
+		beanObject = getBeanByScope(beanEntry);	// 빈 객체를 생성 또는 싱글톤 레지스트리에서 꺼냅니다.
+	
 		processBeanReference(beanObject, reference);	// Bean간 주입은 여기서 발생합니다.
 		
 		/* Aware 확인 */
@@ -84,7 +85,7 @@ public abstract class AbstractBeanFactory extends BeanEntryObjectMapper implemen
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T> T createNewBean(BeanEntry beanEntry) {
+	public <T> T getBeanByScope(BeanEntry beanEntry) {
 		if(beanEntry.getScope().equals(Scope.SINGLETON))
 		{
 			return (T)singletonRegistry.getBean(beanEntry.getBeanName(), beanEntry.getBeanType());
