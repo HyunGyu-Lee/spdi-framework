@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<bean name="test" class="com.hst.spdiframework.beans.Student">
+		<property name="name" value="이현규"/>
+		<property name="age" value="25"/>
+	</bean>
+	
+	<bean name="rf" class="com.hst.spdiframework.beans.RefTest">
+		<property name="refName" value="zz"/>
+		<property name="student" ref="test"/>
+	</bean>	
+	
+	<component-scan base-package = "com.leeframework"/>
+</beans>
