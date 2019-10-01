@@ -7,3 +7,10 @@ Spring framework 학습목적으로 DI / IoC / AOP 를 직접 구현해보고자
 ## spdi-framework 의 모듈 목록
 - spdi-core 기본적으로, 사용자에게 프레임워크 환경을 제공해주기 위한 핵심 기능을 담당하는 모듈 
 
+## TODO
+- [ ] JspMvcAdapter 통합
+    - [ ] 기존 기능 spdi-core 통합
+        - [ ] JSON Context 설정 방식
+        - [ ] 비슷하게 구현된 Beans 관련 기능
+    - [ ] Web 관련 기능 (DispatcherServlet 등등) spdi-web 신규 생성
+- [ ] 소스 전체적으로 리팩토링
