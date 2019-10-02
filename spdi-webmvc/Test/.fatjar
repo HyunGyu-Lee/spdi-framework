@@ -1,0 +1,14 @@
+#Fat Jar Configuration File
+#Mon Sep 19 23:21:02 KST 2016
+onejar.license.required=true
+manifest.classpath=
+manifest.removesigners=true
+onejar.checkbox=false
+jarname=C\:\\Users\\\uC774\uD604\uADDC\\Desktop\\jsp-mvc-supporter-v1.0.jar
+manifest.mergeall=true
+manifest.mainclass=
+manifest.file=<createnew>
+jarname.isextern=true
+onejar.expand=
+excludes=<jar|annotations-api.jar>;<jar|catalina-ant.jar>;<jar|catalina-ha.jar>;<jar|catalina-tribes.jar>;<jar|catalina.jar>;<jar|ecj-4.4.2.jar>;<jar|el-api.jar>;<jar|jasper-el.jar>;<jar|jasper.jar>;<jar|jsp-api.jar>;<jar|jstl.jar>;<jar|servlet-api.jar>;<jar|standard.jar>;<jar|tomcat-api.jar>;<jar|tomcat-coyote.jar>;<jar|tomcat-dbcp.jar>;<jar|tomcat-i18n-es.jar>;<jar|tomcat-i18n-fr.jar>;<jar|tomcat-i18n-ja.jar>;<jar|tomcat-jdbc.jar>;<jar|tomcat-util.jar>;<jar|tomcat7-websocket.jar>;<jar|websocket-api.jar>
+includes=

@@ -12,7 +12,11 @@ import com.spdiframework.beans.metadata.BeanFactoryMetaData;
 public abstract class ApplicationContext extends LifeCycle {
 	
 	private AbstractBeanFactory beanFactory;
-	
+
+	public ApplicationContext(AbstractBeanFactory beanFactory) {
+		this.beanFactory = beanFactory;
+	}
+
 	private static final Logger logger = LoggerFactory.getLogger(ApplicationContext.class);
 	
 	public ApplicationContext() {

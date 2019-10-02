@@ -14,5 +14,6 @@
 
 	<modules>
 		<module>spdi-core</module>
+		<module>spdi-webmvc</module>
 	</modules>
 </project>

@@ -1,0 +1,24 @@
+{
+	"container-id" : "defaultContainer",
+	"controller-scan" : "com.mvcsupporter.test.controller",
+	"beans" : [
+		{
+			"bean-name" : "mappingHandler",
+			"bean-class" : "com.mvcsupporter.web.controller.MappingHandler"
+		},
+		{
+			"bean-name" : "viewResolver",
+			"bean-class" : "com.mvcsupporter.web.views.ViewResolver",
+			"properties" : [
+				{
+					"property-name" : "prefix",
+					"property-value" : "/"
+				},
+				{
+					"property-name" : "suffix",
+					"property-value" : ".jsp"
+				}
+			]
+		}
+	]
+}
