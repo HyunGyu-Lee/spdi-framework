@@ -1,5 +1,3 @@
-package test.mvcsupporter.core;
-
 import com.mvcsupporter.core.Container;
 import com.mvcsupporter.core.GeneralApplicationContainer;
 
