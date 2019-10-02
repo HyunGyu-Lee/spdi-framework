@@ -1,5 +1,5 @@
-import com.mvcsupporter.core.Container;
-import com.mvcsupporter.core.GeneralApplicationContainer;
+import com.spdiframework.webmvc.core.Container;
+import com.spdiframework.webmvc.core.GeneralApplicationContainer;
 
 public class ContainerTest {
 	

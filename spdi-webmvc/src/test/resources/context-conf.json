@@ -1,22 +1,22 @@
 {
-	"container-id" : "defaultContainer",
-	"controller-scan" : "com.mvcsupporter.test.controller",
+	"containerId" : "defaultContainer",
+	"controllerScan" : "com.mvcsupporter.test.controller",
 	"beans" : [
 		{
-			"bean-name" : "mappingHandler",
-			"bean-class" : "com.mvcsupporter.web.controller.MappingHandler"
+			"beanName" : "mappingHandler",
+			"beanClass" : "com.mvcsupporter.web.controller.MappingHandler"
 		},
 		{
-			"bean-name" : "viewResolver",
-			"bean-class" : "com.mvcsupporter.web.views.ViewResolver",
+			"beanName" : "viewResolver",
+			"beanClass" : "com.mvcsupporter.web.views.ViewResolver",
 			"properties" : [
 				{
-					"property-name" : "prefix",
-					"property-value" : "/"
+					"propertyName" : "prefix",
+					"propertyValue" : "/"
 				},
 				{
-					"property-name" : "suffix",
-					"property-value" : ".jsp"
+					"propertyName" : "suffix",
+					"propertyValue" : ".jsp"
 				}
 			]
 		}

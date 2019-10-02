@@ -49,11 +49,11 @@ example) WEB-INF/conf/context-conf.json
 	"beans" : [
 		{
 			"bean-name" : "mappingHandler",
-			"bean-class" : "com.mvcsupporter.web.controller.MappingHandler"
+			"bean-class" : "MappingHandler"
 		},
 		{
 			"bean-name" : "viewResolver",
-			"bean-class" : "com.mvcsupporter.web.views.ViewResolver",
+			"bean-class" : "ViewResolver",
 			"properties" : [
 				{
 					"property-name" : "prefix",
