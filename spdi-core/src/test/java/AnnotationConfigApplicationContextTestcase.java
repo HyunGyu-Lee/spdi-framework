@@ -1,33 +1,38 @@
-import com.hst.spdiframework.beans.Student;
-import com.hst.spdiframework.context.AnnotationConfigApplicationContext;
-import com.hst.spdiframework.context.XmlApplicationContext;
-
+import com.spdiframework.beans.MyBeanConfig;
+import com.spdiframework.beans.Student;
+import com.spdiframework.context.AnnotationConfigApplicationContext;
+import com.spdiframework.context.ApplicationContext;
+import com.spdiframework.context.XmlApplicationContext;
+import org.junit.Before;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.hst.spdiframework.beans.MyBeanConfig;
+import java.io.File;
 
 public class AnnotationConfigApplicationContextTestcase {
 	
-	private XmlApplicationContext context;
-	private AnnotationConfigApplicationContext ctx;
-	
-	private static Logger log = LoggerFactory.getLogger(AnnotationConfigApplicationContextTestcase.class);
-	
-	public void setUp() {
-		//context = new XmlApplicationContext("lee-context.xml");
-		ctx = new AnnotationConfigApplicationContext(MyBeanConfig.class);
-	}
-	
+	private ApplicationContext ctx;
 
-	public static void main(String[] args) {
-		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(MyBeanConfig.class);
-		System.out.println(ctx.getBean("test", Student.class));
-		log.trace("TRACE");
-		log.debug("DEBUG");
-		log.info("INFO");
-		log.warn("WARN");
-		log.error("ERROR");
+	private Class[] configurations;
+
+	private static Logger log = LoggerFactory.getLogger(AnnotationConfigApplicationContextTestcase.class);
+
+	@Before
+	public void setUp() {
+		this.configurations = new Class[]{MyBeanConfig.class};
+	}
+
+	@Test
+	public void testAnnotationConfigApplicationContextLoad() {
+		this.ctx = new AnnotationConfigApplicationContext(configurations);
+
+		log.debug("{}", ctx.getBean("test", Student.class));
+	}
+
+	@Test
+	public void testXmlApplicationContextLoad() {
+		this.ctx = new XmlApplicationContext("test-context.xml");
 	}
 	
 
