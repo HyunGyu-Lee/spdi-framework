@@ -9,7 +9,7 @@ import spdi.MyBeanConfig;
 import spdi.Student;
 
 public class AnnotationConfigApplicationContextTestcase {
-	
+
 	private ApplicationContext ctx;
 
 	private Class[] configurations;
@@ -32,6 +32,6 @@ public class AnnotationConfigApplicationContextTestcase {
 	public void testXmlApplicationContextLoad() {
 		this.ctx = new XmlApplicationContext("test-context.xml");
 	}
-	
+
 
 }

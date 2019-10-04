@@ -12,15 +12,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class Container {
-	
+
 	private HashMap<String, Object> beans;
 	private ArrayList<BeanReference> references;
 	private ContainerConfiguration configuration;
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(Container.class);
-	
-	public Container() {}
-	
+
+	public Container() {
+	}
+
 	public Container(String configurationPath, String containerType) {
 		beans = new HashMap<>();
 		references = new ArrayList<>();
@@ -29,7 +30,7 @@ public abstract class Container {
 		configuration = ContainerFactory.getContainerConfiguration(configurationPath);
 		loadAllBean(configuration);
 	}
-	
+
 	public Container(ContainerConfiguration configuration, String containerType) {
 		beans = new HashMap<>();
 		references = new ArrayList<>();
@@ -38,7 +39,7 @@ public abstract class Container {
 		logger.info("Load type - {}", "normal");
 		loadAllBean(configuration);
 	}
-	
+
 	public void lazyLoad(String configurationPath, String containerType) {
 		beans = new HashMap<>();
 		references = new ArrayList<>();
@@ -47,76 +48,60 @@ public abstract class Container {
 		configuration = ContainerFactory.getContainerConfiguration(configurationPath);
 		loadAllBean(configuration);
 	}
-	
+
 	public void loadAllBean(ContainerConfiguration configuration) {
 		ArrayList<BeanConfiguration> beanConfs = configuration.getBeanConfigurations();
-		
-		for(BeanConfiguration beanConf : beanConfs)
-		{
+
+		for (BeanConfiguration beanConf : beanConfs) {
 			String beanName = beanConf.getName();
 			String clazzName = beanConf.getClazz();
-			
+
 			Class<?> clazz = ReflectionUtils.findClass(clazzName);
-			if(clazz==null)
-			{
-				logger.error("Cannot find class : "+clazzName);
+			if (clazz == null) {
+				logger.error("Cannot find class : " + clazzName);
 				continue;
 			}
 			Object instance = ReflectionUtils.createInstance(clazz);
-			
-			for(Property property : beanConf.getProperties())
-			{
+
+			for (Property property : beanConf.getProperties()) {
 				String propertyName = property.getName();
 				String propertyValue = property.getValue();
 				String propertyRef = property.getRef();
-				
-				if(propertyValue==null)
-				{
+
+				if (propertyValue == null) {
 					Object someBean = beans.get(propertyRef);
-					if(someBean==null)
-					{
+					if (someBean == null) {
 						references.add(new BeanReference(beanName, propertyRef, propertyName));
-					}
-					else
-					{
+					} else {
 						ReflectionUtils.set(instance, propertyName, someBean);
 					}
-				}
-				else if(propertyRef==null)
-				{
+				} else if (propertyRef == null) {
 					ReflectionUtils.set(instance, propertyName, propertyValue);
-				}
-				else
-				{
+				} else {
 					System.out.println("���� �߻����Ѿ���");
-				}				
+				}
 			}
-			
+
 			beans.put(beanName, instance);
 			logger.info("Load Bean - [{} - {}]", beanName, clazz);
 		}
 		referenceMatch(references);
 	}
-	
-	public void referenceMatch(ArrayList<BeanReference> references)
-	{
-		for(BeanReference reference : references)
-		{
+
+	public void referenceMatch(ArrayList<BeanReference> references) {
+		for (BeanReference reference : references) {
 			Object targetBean = beans.get(reference.getTarget());
 			Object injectedBean = beans.get(reference.getRefName());
-			if(injectedBean==null)
-			{
-				logger.error("Cannot inject bean [{}]", reference.getRefName());	
-			}
-			else
-			{
+			if (injectedBean == null) {
+				logger.error("Cannot inject bean [{}]", reference.getRefName());
+			} else {
 				ReflectionUtils.set(targetBean, reference.getInjectLocation(), injectedBean);
 				logger.info("Inject Bean - [{} to {}]", reference.getRefName(), reference.getTarget());
 			}
 		}
 		logger.info("Dependency Injecting Finish");
 	}
-	
+
 	public HashMap<String, Object> getBeans() {
 		return beans;
 	}
@@ -132,10 +117,10 @@ public abstract class Container {
 	public void setConfiguration(ContainerConfiguration configuration) {
 		this.configuration = configuration;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public <T> T getBean(String beanName, Class<T> clazz) {
-		return (T)beans.get(beanName);
+		return (T) beans.get(beanName);
 	}
-	
+
 }
