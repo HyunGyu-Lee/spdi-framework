@@ -1,39 +1,47 @@
 package com.spdiframework.context.support;
 
+/***
+ * @author dlgusrb0808@gmail.com
+ */
 public abstract class LifeCycle {
-	
+
 	private boolean isLoadHooking = true;
 	private boolean isShutdownHooking = true;
 	private boolean isLoaded = false;
 
-	public abstract void load();
-	public abstract void shutdown();
-	public abstract void refresh();
-	
-	public boolean isLoadHooking() {
+	protected abstract void load();
+
+	protected abstract void shutdown();
+
+	protected abstract void refresh();
+
+	protected boolean isLoadHooking() {
 		return isLoadHooking;
 	}
 
-	public void setLoadHooking(boolean isLoadHooking) {
+	protected void setLoadHooking(boolean isLoadHooking) {
 		this.isLoadHooking = isLoadHooking;
 	}
-	
-	public boolean isShutdownHooking() {
+
+	protected boolean isShutdownHooking() {
 		return isShutdownHooking;
 	}
-	
-	public void setShutdownHooking(boolean isShutdownHooking) {
-		this.isShutdownHooking = isShutdownHooking;
-	};
-	
-	public void loadHook(){};
-	public void shutdownHook(){};
 
-	public boolean isLoaded() {
+	protected void setShutdownHooking(boolean isShutdownHooking) {
+		this.isShutdownHooking = isShutdownHooking;
+	}
+
+	protected void loadHook() {
+	}
+
+	protected void shutdownHook() {
+	}
+
+	protected boolean isLoaded() {
 		return isLoaded;
 	}
-	
-	public void setLoaded(boolean isLoaded) {
+
+	protected void setLoaded(boolean isLoaded) {
 		this.isLoaded = isLoaded;
 	}
 }

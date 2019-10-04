@@ -1,5 +1,3 @@
-import com.spdiframework.beans.MyBeanConfig;
-import com.spdiframework.beans.Student;
 import com.spdiframework.context.AnnotationConfigApplicationContext;
 import com.spdiframework.context.ApplicationContext;
 import com.spdiframework.context.XmlApplicationContext;
@@ -7,8 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
+import spdi.MyBeanConfig;
+import spdi.Student;
 
 public class AnnotationConfigApplicationContextTestcase {
 	

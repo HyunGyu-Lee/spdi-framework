@@ -1,5 +1,7 @@
 package com.spdiframework.context;
 
-public abstract interface Aware {
-
+/***
+ * @author dlgusrb0808@gmail.com
+ */
+public interface Aware {
 }

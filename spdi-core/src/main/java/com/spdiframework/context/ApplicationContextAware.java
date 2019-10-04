@@ -1,5 +1,8 @@
 package com.spdiframework.context;
 
+/***
+ * @author dlgusrb0808@gmail.com
+ */
 public interface ApplicationContextAware extends Aware {
-	public void setApplicationContext(ApplicationContext applicationContext);
+	void setApplicationContext(ApplicationContext applicationContext);
 }

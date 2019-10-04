@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
-	<bean name="test" class="com.spdiframework.beans.Student">
+	<bean name="test" class="spdi.Student">
 		<property name="name" value="이현규"/>
 		<property name="age" value="25"/>
 	</bean>
 	
-	<bean name="rf" class="com.spdiframework.beans.RefTest">
+	<bean name="rf" class="spdi.RefTest">
 		<property name="refName" value="zz"/>
 		<property name="student" ref="test"/>
 	</bean>	

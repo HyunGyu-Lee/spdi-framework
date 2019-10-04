@@ -18,6 +18,9 @@ import com.spdiframework.beans.metadata.BeanProperty;
 import com.spdiframework.beans.metadata.BeanReference;
 import com.spdiframework.beans.metadata.Scope;
 
+/***
+ * @author dlgusrb0808@gmail.com
+ */
 public class XmlConfigurationParser {
 
 	public static Document getDocument(File file) {

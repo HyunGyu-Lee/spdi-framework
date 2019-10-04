@@ -1,5 +1,6 @@
-package com.spdiframework.beans;
+package spdi;
 
+// TODO / [개선] 테스트 패키지로 이동
 public class RefTest {
 	private String refName;
 	private Student student;
@@ -19,5 +20,5 @@ public class RefTest {
 	public void setStudent(Student student) {
 		this.student = student;
 	}
-	
+
 }

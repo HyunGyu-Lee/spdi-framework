@@ -1,5 +1,8 @@
 package com.spdiframework.beans.metadata;
 
+/***
+ * @author dlgusrb0808@gmail.com
+ */
 public class BeanReference {
 	private String refName;
 	private String injectField;

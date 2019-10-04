@@ -1,5 +1,8 @@
 package com.spdiframework.beans.lifecycle;
 
+/***
+ * @author dlgusrb0808@gmail.com
+ */
 public interface DisposableBean {
-	public void destroy();
+	void destroy();
 }
