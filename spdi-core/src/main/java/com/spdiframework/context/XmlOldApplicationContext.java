@@ -6,11 +6,11 @@ import com.spdiframework.beans.parser.xml.XmlConfigurationParser;
 /***
  * @author dlgusrb0808@gmail.com
  */
-public class XmlApplicationContext extends ApplicationContext {
+public class XmlOldApplicationContext extends OldApplicationContext {
 
 	private String[] configurables;
 
-	public XmlApplicationContext(String... configurables) {
+	public XmlOldApplicationContext(String... configurables) {
 		this.configurables = configurables;
 		load();
 		refresh();

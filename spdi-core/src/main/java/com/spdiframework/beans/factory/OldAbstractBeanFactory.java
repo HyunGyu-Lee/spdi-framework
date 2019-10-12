@@ -2,8 +2,6 @@ package com.spdiframework.beans.factory;
 
 import com.spdiframework.beans.lifecycle.DisposableBean;
 import com.spdiframework.beans.lifecycle.InitailizingBean;
-import com.spdiframework.context.ApplicationContext;
-import com.spdiframework.context.ApplicationContextAware;
 import com.spdiframework.utils.ReflectionUtils;
 import com.spdiframework.beans.aware.BeanFactoryAware;
 import com.spdiframework.beans.aware.BeanNameAware;
@@ -20,15 +18,14 @@ import org.slf4j.LoggerFactory;
 /***
  * @author dlgusrb0808@gmail.com
  */
-public abstract class AbstractBeanFactory extends BeanEntryObjectMapper implements ApplicationContextAware {
+public abstract class OldAbstractBeanFactory extends BeanEntryObjectMapper implements BeanFactory {
 
-	private static final Logger logger = LoggerFactory.getLogger(AbstractBeanFactory.class);
+	private static final Logger logger = LoggerFactory.getLogger(OldAbstractBeanFactory.class);
 
-	private ApplicationContext applicationContext;
 	private BeanFactoryMetaData beanFactoryMetaData;
 	private SingletonRegistry singletonRegistry = new SingletonRegistry(this);
 
-	AbstractBeanFactory(BeanFactoryMetaData beanFactoryMetaData) {
+	OldAbstractBeanFactory(BeanFactoryMetaData beanFactoryMetaData) {
 		load(beanFactoryMetaData);
 	}
 
@@ -91,12 +88,7 @@ public abstract class AbstractBeanFactory extends BeanEntryObjectMapper implemen
 
 		if (ReflectionUtils.isImplements(beanEntry.getBeanType(), BeanFactoryAware.class)) {
 			ReflectionUtils.invoke(ReflectionUtils.findMethod(beanEntry.getBeanType(), "setBeanFactory",
-					AbstractBeanFactory.class), beanObject, this);
-		}
-
-		if (ReflectionUtils.isImplements(beanEntry.getBeanType(), ApplicationContextAware.class)) {
-			ReflectionUtils.invoke(ReflectionUtils.findMethod(beanEntry.getBeanType(), "setApplicationContext",
-					ApplicationContext.class), beanObject, applicationContext);
+					OldAbstractBeanFactory.class), beanObject, this);
 		}
 	}
 
@@ -142,11 +134,6 @@ public abstract class AbstractBeanFactory extends BeanEntryObjectMapper implemen
 		}
 		// TODO / [기존 기능 추가] @PreDestroy 어노테이션 구현 필요
 		// ReflectionUtils.invoke(ReflectionUtils.getAnnotatedMethod(beanType, PreDestroy.class), beanObject);
-	}
-
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) {
-		this.applicationContext = applicationContext;
 	}
 
 	public void destroy() {

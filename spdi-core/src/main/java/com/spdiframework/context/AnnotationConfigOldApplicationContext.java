@@ -11,13 +11,13 @@ import org.slf4j.LoggerFactory;
 /***
  * @author dlgusrb0808@gmail.com
  */
-public class AnnotationConfigApplicationContext extends ApplicationContext {
+public class AnnotationConfigOldApplicationContext extends OldApplicationContext implements ApplicationContext {
 
-	private static final Logger logger = LoggerFactory.getLogger(AnnotationConfigApplicationContext.class);
+	private static final Logger logger = LoggerFactory.getLogger(AnnotationConfigOldApplicationContext.class);
 
 	private Class<?>[] configurables;
 
-	public AnnotationConfigApplicationContext(Class<?>... configurables) {
+	public AnnotationConfigOldApplicationContext(Class<?>... configurables) {
 		this.configurables = configurables;
 		load();
 		refresh();
@@ -48,4 +48,13 @@ public class AnnotationConfigApplicationContext extends ApplicationContext {
 	}
 
 
+	@Override
+	public <T> T getBean(String name) {
+		return null;
+	}
+
+	@Override
+	public <T> T getBean(Class<T> type) {
+		return null;
+	}
 }
