@@ -10,7 +10,7 @@ import com.spdiframework.beans.metadata.BeanEntry;
 import com.spdiframework.beans.metadata.BeanEntryObjectMapper;
 import com.spdiframework.beans.metadata.BeanFactoryMetaData;
 import com.spdiframework.beans.metadata.BeanReference;
-import com.spdiframework.beans.metadata.Scope;
+import com.spdiframework.beans.metadata.BeanScope;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,7 @@ public abstract class OldAbstractBeanFactory extends BeanEntryObjectMapper imple
 	private static final Logger logger = LoggerFactory.getLogger(OldAbstractBeanFactory.class);
 
 	private BeanFactoryMetaData beanFactoryMetaData;
-	private SingletonRegistry singletonRegistry = new SingletonRegistry(this);
+	private SingletonRegistry singletonRegistry = new SingletonRegistry();
 
 	OldAbstractBeanFactory(BeanFactoryMetaData beanFactoryMetaData) {
 		load(beanFactoryMetaData);
@@ -38,9 +38,9 @@ public abstract class OldAbstractBeanFactory extends BeanEntryObjectMapper imple
 		for (String beanName : beanFactoryMetaData.getBeanEntries().keySet()) {
 			BeanEntry entry = beanFactoryMetaData.getBeanEntries().get(beanName);
 			if (entry.getScope() == null)
-				beanFactoryMetaData.getBeanEntries().get(beanName).setScope(Scope.SINGLETON);
+				beanFactoryMetaData.getBeanEntries().get(beanName).setScope(BeanScope.SINGLETON);
 
-			if (entry.getScope().equals(Scope.SINGLETON)) {
+			if (entry.getScope().equals(BeanScope.SINGLETON)) {
 				logger.info("{}({}) registed at Singleton registry", beanName, entry.getBeanType().getSimpleName());
 				singletonRegistry.registry(beanFactoryMetaData.getBeanEntries().get(beanName));
 			}
@@ -72,9 +72,9 @@ public abstract class OldAbstractBeanFactory extends BeanEntryObjectMapper imple
 
 	@SuppressWarnings("unchecked")
 	private <T> T getBeanByScope(BeanEntry beanEntry) {
-		if (beanEntry.getScope().equals(Scope.SINGLETON)) {
+		if (beanEntry.getScope().equals(BeanScope.SINGLETON)) {
 			return (T) singletonRegistry.getBean(beanEntry.getBeanName(), beanEntry.getBeanType());
-		} else if (beanEntry.getScope().equals(Scope.PROTOTYPE)) {
+		} else if (beanEntry.getScope().equals(BeanScope.PROTOTYPE)) {
 			return (T) this.mapping(beanEntry, beanEntry.getBeanType());
 		} else {
 			return (T) singletonRegistry.getBean(beanEntry.getBeanName(), beanEntry.getBeanType());
@@ -139,7 +139,7 @@ public abstract class OldAbstractBeanFactory extends BeanEntryObjectMapper imple
 	public void destroy() {
 		if (singletonRegistry != null) {
 			for (String beanName : beanFactoryMetaData.getBeanEntries().keySet()) {
-				if (beanFactoryMetaData.getBeanEntries().get(beanName).getScope().equals(Scope.SINGLETON)) {
+				if (beanFactoryMetaData.getBeanEntries().get(beanName).getScope().equals(BeanScope.SINGLETON)) {
 					destroyBean(beanName);
 				}
 			}

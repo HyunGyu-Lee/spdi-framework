@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class BeanEntry {
 	private Class<?> beanType;
 	private String beanName;
-	private Scope scope;
+	private BeanScope beanScope;
 	private String initMethod;
 	private String destroyMethod;
 	private HashMap<String, BeanProperty> properties = new HashMap<>();
@@ -31,12 +31,12 @@ public class BeanEntry {
 		this.beanName = beanName;
 	}
 
-	public Scope getScope() {
-		return scope;
+	public BeanScope getScope() {
+		return beanScope;
 	}
 
-	public void setScope(Scope scope) {
-		this.scope = scope;
+	public void setScope(BeanScope beanScope) {
+		this.beanScope = beanScope;
 	}
 
 	public void addProperty(BeanProperty property) {

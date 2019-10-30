@@ -1,41 +1,27 @@
 package com.spdiframework.beans.factory;
 
-import java.util.HashMap;
-
-import com.spdiframework.beans.metadata.BeanEntry;
+import com.spdiframework.beans.metadata.BeanDefinition;
 import com.spdiframework.beans.metadata.BeanEntryObjectMapper;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /***
  * @author dlgusrb0808@gmail.com
  */
 public class SingletonRegistry {
 
-	private HashMap<String, Object> registry;
-	private BeanEntryObjectMapper entryObjectMapper;
+	private Map<String, Object> singletonBeanRegistry;
 
-	SingletonRegistry(BeanEntryObjectMapper entryObjectMapper) {
-		registry = new HashMap<>();
-		this.entryObjectMapper = entryObjectMapper;
+	SingletonRegistry() {
+		singletonBeanRegistry = new HashMap<>();
 	}
 
-	@SuppressWarnings("unchecked")
-	<T> T getBean(String beanName, Class<T> clazz) {
-		return (T) registry.get(beanName);
+	public void registerSingleton(String beanName, Object instance) {
+		singletonBeanRegistry.put(beanName, instance);
 	}
 
-	void registry(BeanEntry beanEntry) {
-		registry.put(beanEntry.getBeanName(), entryObjectMapper.mapping(beanEntry));
-	}
-
-	public HashMap<String, Object> getRegistry() {
-		return registry;
-	}
-
-	public BeanEntryObjectMapper getEntryObjectMapper() {
-		return entryObjectMapper;
-	}
-
-	void destroySingleton(String beanName) {
-		registry.remove(beanName);
+	public Object getSingleton(String beanName) {
+		return singletonBeanRegistry.get(beanName);
 	}
 }

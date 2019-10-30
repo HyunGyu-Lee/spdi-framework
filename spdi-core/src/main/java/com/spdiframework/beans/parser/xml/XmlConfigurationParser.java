@@ -7,16 +7,13 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import com.spdiframework.beans.metadata.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.spdiframework.beans.metadata.BeanEntry;
-import com.spdiframework.beans.metadata.BeanFactoryMetaData;
-import com.spdiframework.beans.metadata.BeanProperty;
-import com.spdiframework.beans.metadata.BeanReference;
-import com.spdiframework.beans.metadata.Scope;
+import com.spdiframework.beans.metadata.BeanScope;
 
 /***
  * @author dlgusrb0808@gmail.com
@@ -60,9 +57,9 @@ public class XmlConfigurationParser {
 			BeanEntry entry = new BeanEntry();
 
 			if (scope.length() == 0) {
-				entry.setScope(Scope.SINGLETON);
+				entry.setScope(BeanScope.SINGLETON);
 			} else {
-				entry.setScope(Scope.valueOf(scope));
+				entry.setScope(BeanScope.valueOf(scope));
 			}
 
 			NodeList propertiesNodes = beanNode.getElementsByTagName(XmlConfigurationNamespace.PROPERTY);
