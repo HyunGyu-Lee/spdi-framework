@@ -3,6 +3,7 @@ package com.spdiframework.beans.factory;
 import com.spdiframework.beans.metadata.BeanDefinition;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,12 +19,13 @@ public class BasicBeanFactory implements BeanFactory {
 	}
 
 	@Override
-	public <T> T getBean(String name, Class<T> type) {
+	public <T> List<T> getBeans(Class<T> type) {
 		return null;
 	}
 
 	@Override
-	public <T> T getBean(Class<T> type) {
+	public <T> T getBean(BeanDefinition beanDefinition) {
 		return null;
 	}
+
 }

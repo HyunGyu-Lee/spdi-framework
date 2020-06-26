@@ -1,4 +1,4 @@
-package spdi;
+package com.spdiframework;
 
 public class RefTest {
 	private String refName;

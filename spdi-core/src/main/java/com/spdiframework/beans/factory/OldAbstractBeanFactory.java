@@ -42,7 +42,7 @@ public abstract class OldAbstractBeanFactory extends BeanEntryObjectMapper imple
 
 			if (entry.getScope().equals(BeanScope.SINGLETON)) {
 				logger.info("{}({}) registed at Singleton registry", beanName, entry.getBeanType().getSimpleName());
-				singletonRegistry.registry(beanFactoryMetaData.getBeanEntries().get(beanName));
+				singletonRegistry.getSingleton(beanName);
 			}
 		}
 	}
@@ -73,11 +73,11 @@ public abstract class OldAbstractBeanFactory extends BeanEntryObjectMapper imple
 	@SuppressWarnings("unchecked")
 	private <T> T getBeanByScope(BeanEntry beanEntry) {
 		if (beanEntry.getScope().equals(BeanScope.SINGLETON)) {
-			return (T) singletonRegistry.getBean(beanEntry.getBeanName(), beanEntry.getBeanType());
+			return (T) singletonRegistry.getSingleton(beanEntry.getBeanName());
 		} else if (beanEntry.getScope().equals(BeanScope.PROTOTYPE)) {
 			return (T) this.mapping(beanEntry, beanEntry.getBeanType());
 		} else {
-			return (T) singletonRegistry.getBean(beanEntry.getBeanName(), beanEntry.getBeanType());
+			return (T) singletonRegistry.getSingleton(beanEntry.getBeanName());
 		}
 	}
 
@@ -148,9 +148,9 @@ public abstract class OldAbstractBeanFactory extends BeanEntryObjectMapper imple
 
 	public void destroyBean(String beanName) {
 		BeanEntry entry = beanFactoryMetaData.getEntry(beanName);
-		processBeanDisposing(singletonRegistry.getBean(beanName, entry.getBeanType()), entry);
+		processBeanDisposing(singletonRegistry.getSingleton(beanName), entry);
 		//beanFactoryMetaData.getBeanEntries().remove(beanName);
-		singletonRegistry.destroySingleton(beanName);
+		singletonRegistry.removeSingleton(beanName);
 	}
 
 }

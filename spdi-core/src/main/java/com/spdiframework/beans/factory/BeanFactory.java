@@ -11,7 +11,7 @@ public interface BeanFactory {
 
 	public <T> T getBean(String name);
 
-	public <T> List<Object> getBeans(Class<T> type);
+	public <T> List<T> getBeans(Class<T> type);
 
 	public <T> T getBean(BeanDefinition beanDefinition);
 

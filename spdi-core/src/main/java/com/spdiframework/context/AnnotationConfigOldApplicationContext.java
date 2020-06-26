@@ -1,12 +1,15 @@
 package com.spdiframework.context;
 
 import com.spdiframework.beans.exception.NotConfigurableClassException;
+import com.spdiframework.beans.metadata.BeanDefinition;
 import com.spdiframework.beans.metadata.BeanFactoryMetaData;
 import com.spdiframework.beans.parser.classconfig.ClassConfigurationParser;
 import com.spdiframework.beans.streotype.Configuration;
 import com.spdiframework.utils.ReflectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /***
  * @author dlgusrb0808@gmail.com
@@ -54,7 +57,12 @@ public class AnnotationConfigOldApplicationContext extends OldApplicationContext
 	}
 
 	@Override
-	public <T> T getBean(Class<T> type) {
+	public <T> List<T> getBeans(Class<T> type) {
+		return null;
+	}
+
+	@Override
+	public <T> T getBean(BeanDefinition beanDefinition) {
 		return null;
 	}
 }

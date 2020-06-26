@@ -1,4 +1,4 @@
-package spdi;
+package com.spdiframework;
 
 import com.spdiframework.beans.streotype.Bean;
 import com.spdiframework.beans.streotype.Configuration;

@@ -1,8 +1,5 @@
 package com.spdiframework.beans.factory;
 
-import com.spdiframework.beans.metadata.BeanDefinition;
-import com.spdiframework.beans.metadata.BeanEntryObjectMapper;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,5 +20,9 @@ public class SingletonRegistry {
 
 	public Object getSingleton(String beanName) {
 		return singletonBeanRegistry.get(beanName);
+	}
+
+	public void removeSingleton(String beanName) {
+		Object r = singletonBeanRegistry.get(beanName);
 	}
 }

@@ -1,3 +1,5 @@
+package com.spdiframework;
+
 import com.spdiframework.context.AnnotationConfigOldApplicationContext;
 import com.spdiframework.context.OldApplicationContext;
 import com.spdiframework.context.XmlOldApplicationContext;
@@ -5,8 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import spdi.MyBeanConfig;
-import spdi.Student;
 
 public class AnnotationConfigOldApplicationContextTestcase {
 

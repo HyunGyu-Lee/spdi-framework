@@ -33,10 +33,8 @@ public abstract class AbstractBeanFactory implements BeanFactory {
 	}
 
 	@Override
-	public <T> List<Object> getBeans(Class<T> type) {
-		return	beanDefinitionRegistry.getBeanDefinition(type).stream()
-				.map(this::getBean)
-				.collect(Collectors.toList());
+	public <T> List<T> getBeans(Class<T> type) {
+		return	null;
 	}
 
 	@Override
